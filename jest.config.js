@@ -1,4 +1,4 @@
-export default {
+const config = {
   roots: ['<rootDir>/src'],
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
   collectCoverage: false,
@@ -7,3 +7,4 @@ export default {
   testEnvironment: 'node',
   transform: { '.+\\.ts$': 'ts-jest' }
 }
+module.exports = config
