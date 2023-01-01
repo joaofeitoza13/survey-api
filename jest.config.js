@@ -1,6 +1,9 @@
 const config = {
   roots: ['<rootDir>/src'],
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**'
+  ],
   collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
