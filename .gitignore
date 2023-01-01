@@ -6,3 +6,6 @@ dist
 
 # tests-output
 coverage
+
+# logs
+debug.log
