@@ -1,6 +1,5 @@
 import app from '../config/app'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-let request = require('supertest')
+import * as request from 'supertest'
 
 describe('Body Parser Middleware', () => {
   test('Should parse body as json', async () => {

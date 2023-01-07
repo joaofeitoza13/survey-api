@@ -1,6 +1,5 @@
 import app from '../config/app'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-let request = require('supertest')
+import * as request from 'supertest'
 
 describe('Content-Type Middleware', () => {
   test('Should return default content-type as json', async () => {

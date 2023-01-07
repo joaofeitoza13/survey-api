@@ -2,7 +2,7 @@ import app from '../config/app'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { hash } from 'bcrypt'
-let request = require('supertest')
+import * as request from 'supertest'
 
 let accountCollection: Collection
 
