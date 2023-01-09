@@ -3,9 +3,7 @@ import validator from 'validator'
 
 jest.mock('validator', () => {
   return {
-    default: {
-      isEmail: () => true
-    }
+    isEmail: () => true
   }
 })
 

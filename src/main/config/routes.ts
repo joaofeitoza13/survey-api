@@ -1,5 +1,5 @@
 import { Express, Router } from 'express'
-import * as fg from 'fast-glob'
+import fg from 'fast-glob'
 
 export default (app: Express): void => {
   const router = Router()

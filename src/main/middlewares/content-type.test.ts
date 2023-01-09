@@ -1,5 +1,5 @@
 import app from '../config/app'
-import * as request from 'supertest'
+import request from 'supertest'
 
 describe('Content-Type Middleware', () => {
   test('Should return default content-type as json', async () => {
