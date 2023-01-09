@@ -9,3 +9,6 @@ coverage
 
 # logs
 debug.log
+
+# mongo data
+data
