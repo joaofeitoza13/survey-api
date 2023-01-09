@@ -7,7 +7,7 @@
     "build": "rimraf dist && tsc",
     "up": "npm run build && sudo docker compose up -d",
     "down": "sudo docker compose down",
-    "dev": "sucrase-node src/main/server.ts",
+    "dev": "node src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js --runInBand",
     "test:verbose": "jest --passWithNoTests",
