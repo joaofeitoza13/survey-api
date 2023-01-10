@@ -4,8 +4,9 @@
   "description": "Node.js Rest API using TDD, Clean Architecture and Typesript",
   "scripts": {
     "start": "node dist/main/server.js",
+    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
     "build": "rimraf dist && tsc",
-    "up": "npm run build && sudo docker compose up -d",
+    "up": "npm run build && sudo docker compose up",
     "down": "sudo docker compose down",
     "dev": "node src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
