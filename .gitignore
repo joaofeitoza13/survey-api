@@ -12,3 +12,6 @@ debug.log
 
 # mongo data
 data
+
+# do not ignore data layer because mongo data
+!src/data 
