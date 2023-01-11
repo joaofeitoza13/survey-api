@@ -7,7 +7,7 @@ const makeFakeRequest = (): HttpRequest => ({
     question: 'any question',
     answers: [{
       image: 'any_image',
-      answers: 'any_answer'
+      answer: 'any_answer'
     }]
   }
 })
