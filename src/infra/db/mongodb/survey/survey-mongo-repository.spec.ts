@@ -15,7 +15,7 @@ describe('Survey Mongo Repository', () => {
   })
 
   beforeEach(async () => {
-    surveyCollection = await MongoHelper.getCollection('accounts')
+    surveyCollection = await MongoHelper.getCollection('surveys')
     await surveyCollection.deleteMany({})
   })
 
@@ -31,7 +31,7 @@ describe('Survey Mongo Repository', () => {
     return new SurveyMongoRepository()
   }
 
-  test('Should returns a survey add success', async () => {
+  test('Should add a survey on success', async () => {
     const sut = makeSut()
     await sut.add({
       question: 'any_question',
@@ -43,6 +43,6 @@ describe('Survey Mongo Repository', () => {
       }]
     })
     const survey = await surveyCollection.findOne({ question: 'any_question' })
-    expect(survey).toBeNull()
+    expect(survey).toBeTruthy()
   })
 })
