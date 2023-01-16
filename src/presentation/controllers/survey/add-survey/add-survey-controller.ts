@@ -3,13 +3,13 @@ import { AddSurvey, Controller, HttpRequest, HttpResponse, Validation } from './
 
 export class AddSurveyController implements Controller {
   constructor (
-    private readonly validationStub: Validation,
+    private readonly validation: Validation,
     private readonly addSurveyStub: AddSurvey
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = await this.validationStub.validate(httpRequest.body)
+      const error = await this.validation.validate(httpRequest.body)
       if (error) {
         return badRequest(error)
       }
