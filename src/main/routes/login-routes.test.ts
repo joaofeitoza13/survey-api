@@ -32,6 +32,26 @@ describe('Login Routes', () => {
         })
         .expect(200)
     })
+
+    test('Should return 403 on already signedup user', async () => {
+      await request(app)
+        .post('/api/signup')
+        .send({
+          name: 'João',
+          email: 'joaofeitoza.13@gmail.com',
+          password: '1234',
+          passwordConfirmation: '1234'
+        })
+      await request(app)
+        .post('/api/signup')
+        .send({
+          name: 'João',
+          email: 'joaofeitoza.13@gmail.com',
+          password: '1234',
+          passwordConfirmation: '1234'
+        })
+        .expect(403)
+    })
   })
 
   describe('POST /login', () => {
