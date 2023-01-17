@@ -7,7 +7,6 @@ let surveyCollection: Collection
 
 describe('Survey Routes', () => {
   beforeAll(async () => {
-    console.log(process.env.MONGO_URL)
     await MongoHelper.connect(process.env.MONGO_URL)
   })
 
@@ -20,7 +19,7 @@ describe('Survey Routes', () => {
     await surveyCollection.deleteMany({})
   })
 
-  test('Should return 204 on add survey success', async () => {
+  test('Should return 403 on add survey without accessToken', async () => {
     await request(app)
       .post('/api/surveys')
       .send({
@@ -32,6 +31,6 @@ describe('Survey Routes', () => {
           answer: 'answer 2'
         }]
       })
-      .expect(204)
+      .expect(403)
   })
 })
