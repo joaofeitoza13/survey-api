@@ -6,7 +6,7 @@ import {
   HashComparer,
   Encrypter,
   UpdateAccessTokenRepository
-} from './db-authenticaiton-protocols'
+} from './db-authentication-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
