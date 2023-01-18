@@ -93,5 +93,13 @@ describe('Survey Routes', () => {
         .set('x-access-token', accessToken)
         .expect(200)
     })
+
+    test('Should return 204 on load empty survey list with valid accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
   })
 })
