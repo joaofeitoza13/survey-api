@@ -47,7 +47,7 @@ describe('Survey Routes', () => {
         password: '123',
         role: 'admin'
       }).then(result => result.insertedId)
-      const accessToken = sign({ id }, env.jwtSecret)
+      const accessToken = sign({ sub: id }, env.jwtSecret)
       await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
       await request(app)
         .post('/api/surveys')
