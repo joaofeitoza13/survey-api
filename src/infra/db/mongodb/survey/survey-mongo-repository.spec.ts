@@ -8,6 +8,34 @@ const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
 
+const insertSurveyList = async (): Promise<void> => {
+  await surveyCollection.insertMany([{
+    id: 'id_1',
+    question: 'question_1',
+    answers: [{
+      image: 'image_1',
+      answer: 'answer_1'
+    }],
+    date: new Date()
+  }, {
+    id: 'id_2',
+    question: 'question_2',
+    answers: [{
+      image: 'image_2',
+      answer: 'answer_2'
+    }],
+    date: new Date()
+  }, {
+    id: 'id_3',
+    question: 'question_3',
+    answers: [{
+      image: 'image_3',
+      answer: 'answer_3'
+    }],
+    date: new Date()
+  }])
+}
+
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -42,31 +70,7 @@ describe('Survey Mongo Repository', () => {
 
   describe('loadAll()', () => {
     test('Should load all surveys on success', async () => {
-      await surveyCollection.insertMany([{
-        id: 'id_1',
-        question: 'question_1',
-        answers: [{
-          image: 'image_1',
-          answer: 'answer_1'
-        }],
-        date: new Date()
-      }, {
-        id: 'id_2',
-        question: 'question_2',
-        answers: [{
-          image: 'image_2',
-          answer: 'answer_2'
-        }],
-        date: new Date()
-      }, {
-        id: 'id_3',
-        question: 'question_3',
-        answers: [{
-          image: 'image_3',
-          answer: 'answer_3'
-        }],
-        date: new Date()
-      }])
+      await insertSurveyList()
       const sut = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys.length).toBe(3)
