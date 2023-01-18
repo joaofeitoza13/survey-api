@@ -1,0 +1,30 @@
+name: Clean TS Node API workflow
+
+on: ['push']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        mongodb-version: [6.x]
+    steps:
+      - uses: actions/checkout@v3
+      - run: git fetch --prune --unshallow
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Start MongoDB ${{ matrix.mongodb-version }}
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run coverage for all unit and integration tests  
+        run: npm run test:ci
