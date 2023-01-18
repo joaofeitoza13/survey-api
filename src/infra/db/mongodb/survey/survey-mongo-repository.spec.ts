@@ -39,4 +39,39 @@ describe('Survey Mongo Repository', () => {
       expect(survey).toBeTruthy()
     })
   })
+
+  describe('loadAll()', () => {
+    test('Should load all surveys on success', async () => {
+      await surveyCollection.insertMany([{
+        id: 'id_1',
+        question: 'question_1',
+        answers: [{
+          image: 'image_1',
+          answer: 'answer_1'
+        }],
+        date: new Date()
+      }, {
+        id: 'id_2',
+        question: 'question_2',
+        answers: [{
+          image: 'image_2',
+          answer: 'answer_2'
+        }],
+        date: new Date()
+      }, {
+        id: 'id_3',
+        question: 'question_3',
+        answers: [{
+          image: 'image_3',
+          answer: 'answer_3'
+        }],
+        date: new Date()
+      }])
+      const sut = makeSut()
+      const surveys = await sut.loadAll()
+      expect(surveys.length).toBe(3)
+      expect(surveys[0].question).toBe('question_1')
+      expect(surveys[2].question).toBe('question_3')
+    })
+  })
 })
