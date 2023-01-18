@@ -2,7 +2,11 @@ const config = {
   roots: ['<rootDir>/src'],
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
-    '!<rootDir>/src/main/**'
+    '!<rootDir>/src/domain/**',
+    '!<rootDir>/src/main/server.ts',
+    '!<rootDir>/src/**/protocols/**',
+    '!<rootDir>/src/**/*-protocols.ts'
+
   ],
   collectCoverage: false,
   coverageDirectory: 'coverage',
