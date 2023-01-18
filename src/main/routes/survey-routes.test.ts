@@ -8,6 +8,18 @@ import { sign } from 'jsonwebtoken'
 let surveyCollection: Collection
 let accountCollection: Collection
 
+const makeAccessToken = async (role?: string): Promise<string> => {
+  const id = await accountCollection.insertOne({
+    name: 'João',
+    email: 'joaofeitoza.13@gmail.com',
+    password: '123',
+    role
+  }).then(result => result.insertedId)
+  const accessToken = sign({ sub: id }, env.jwtSecret)
+  await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+  return accessToken
+}
+
 describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -41,14 +53,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 204 on add survey with valid accessToken', async () => {
-      const id = await accountCollection.insertOne({
-        name: 'João',
-        email: 'joaofeitoza.13@gmail.com',
-        password: '123',
-        role: 'admin'
-      }).then(result => result.insertedId)
-      const accessToken = sign({ sub: id }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+      const accessToken = await makeAccessToken('admin')
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -73,12 +78,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 200 on load surveys with valid accessToken', async () => {
-      const id = await accountCollection.insertOne({
-        name: 'João',
-        email: 'joaofeitoza.13@gmail.com',
-        password: '123'
-      }).then(result => result.insertedId)
-      const accessToken = sign({ sub: id }, env.jwtSecret)
+      const accessToken = await makeAccessToken()
       await surveyCollection.insertMany([{
         id: 'id_1',
         question: 'question_1',
@@ -88,7 +88,6 @@ describe('Survey Routes', () => {
         }],
         date: new Date()
       }])
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)
