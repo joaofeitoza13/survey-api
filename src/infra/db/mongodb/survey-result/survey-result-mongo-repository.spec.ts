@@ -3,6 +3,7 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
+import { SurveyResultModel } from '@/domain/models/survey-result'
 
 let accountCollection: Collection
 let surveyCollection: Collection
@@ -18,6 +19,9 @@ const makeSurvey = async (): Promise<SurveyModel> => {
     answers: [{
       image: 'image_1',
       answer: 'answer_1'
+    }, {
+      image: 'image_2',
+      answer: 'answer_2'
     }],
     date: new Date()
   }).then(result => result.insertedId)
@@ -33,6 +37,17 @@ const makeAccount = async (): Promise<AccountModel> => {
   }).then(result => result.insertedId)
   const account = await accountCollection.findOne<AccountModel>({ _id: id })
   return MongoHelper.map(account)
+}
+
+const makeSurveyResult = async (account: AccountModel, survey: SurveyModel): Promise<SurveyResultModel> => {
+  const id = await surveyResultCollection.insertOne({
+    surveyId: survey.id,
+    accountId: account.id,
+    answer: survey.answers[0].answer,
+    date: new Date()
+  }).then(result => result.insertedId)
+  const surveyResult = await surveyResultCollection.findOne<SurveyResultModel>({ _id: id })
+  return MongoHelper.map(surveyResult)
 }
 
 describe('Survey Mongo Repository', () => {
@@ -67,6 +82,24 @@ describe('Survey Mongo Repository', () => {
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.id).toBeTruthy()
       expect(surveyResult.answer).toBe(survey.answers[0].answer)
+    })
+
+    test('Should update a survey result if it already existsd', async () => {
+      const survey = await makeSurvey()
+      const account = await makeAccount()
+      const firstSurvey = await makeSurveyResult(account, survey)
+      console.log(firstSurvey)
+      const sut = makeSut()
+      const secondSurvey = await sut.save({
+        surveyId: survey.id,
+        accountId: account.id,
+        answer: survey.answers[1].answer,
+        date: new Date()
+      })
+      console.log(secondSurvey)
+      expect(secondSurvey).toBeTruthy()
+      expect(secondSurvey.id).toEqual(firstSurvey.id)
+      expect(secondSurvey.answer).toBe(survey.answers[1].answer)
     })
   })
 })
