@@ -44,6 +44,13 @@ describe('DbSaveSurveyResult Usecase', () => {
   afterAll(() => {
     MockDate.reset()
   })
+
+  test('Should return a list of surveys on LoadSurveysRepository success', async () => {
+    const { sut } = makeSut()
+    const surveyResult = await sut.save(makeFakeSurveyResultData())
+    expect(surveyResult).toEqual(makeFakeSurveyResult())
+  })
+
   test('Should call SaveSurveyResultRepository with correct values', async () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut()
     const saveSpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save')
