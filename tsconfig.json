@@ -5,6 +5,7 @@
     "target": "es2019",
     "esModuleInterop": true,
     "rootDir": "src",
+    "sourceMap": true,
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
