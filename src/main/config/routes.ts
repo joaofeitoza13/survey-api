@@ -1,6 +1,6 @@
-import { Express, Router } from 'express'
-import { readdirSync } from 'fs'
 import path from 'path'
+import { readdirSync } from 'fs'
+import { Express, Router } from 'express'
 
 // TODO understand what is happening here
 export default (app: Express): void => {
