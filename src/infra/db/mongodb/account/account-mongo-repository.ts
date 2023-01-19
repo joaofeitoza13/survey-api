@@ -13,13 +13,13 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
     const accountId = await accountCollection.insertOne(accountData)
       .then(result => result.insertedId)
     const fetchedAccount = await accountCollection.findOne({ _id: accountId })
-    return MongoHelper.map(fetchedAccount)
+    return fetchedAccount && MongoHelper.map(fetchedAccount)
   }
 
   async loadByEmail (email: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({ email })
-    return MongoHelper.map(account)
+    return account && MongoHelper.map(account)
   }
 
   async updateAccessToken (id: string, token: string): Promise<void> {
@@ -43,6 +43,6 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
         role: 'admin'
       }]
     })
-    return MongoHelper.map(account)
+    return account && MongoHelper.map(account)
   }
 }
