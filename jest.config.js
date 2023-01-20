@@ -5,7 +5,9 @@ const config = {
     '!<rootDir>/src/domain/**',
     '!<rootDir>/src/main/server.ts',
     '!<rootDir>/src/**/protocols/**',
-    '!<rootDir>/src/**/*-protocols.ts'
+    '!<rootDir>/src/**/*-protocols.ts',
+    '!<rootDir>/src/**/*.d.ts',
+    '!**/test/**'
 
   ],
   collectCoverage: false,

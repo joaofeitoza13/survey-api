@@ -88,7 +88,6 @@ describe('Survey Mongo Repository', () => {
       const survey = await makeSurvey()
       const account = await makeAccount()
       const firstSurvey = await makeSurveyResult(account, survey)
-      console.log(firstSurvey)
       const sut = makeSut()
       const secondSurvey = await sut.save({
         surveyId: survey.id,
@@ -96,7 +95,6 @@ describe('Survey Mongo Repository', () => {
         answer: survey.answers[1].answer,
         date: new Date()
       })
-      console.log(secondSurvey)
       expect(secondSurvey).toBeTruthy()
       expect(secondSurvey.id).toEqual(firstSurvey.id)
       expect(secondSurvey.answer).toBe(survey.answers[1].answer)
