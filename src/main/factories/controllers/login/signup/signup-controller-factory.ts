@@ -3,7 +3,7 @@ import { makeDbAddAccount } from '@/main/factories/usecases/account/add-account/
 import { makeLogControllerDecorator } from '@/main/factories/decorators/log-controller-decorator-factory'
 import { makeDbAuthentication } from '@/main/factories/usecases/account/authentication/db-authentication-factory'
 import { Controller } from '@/presentation/protocols'
-import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller.'
+import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller'
 
 export const makeSignUpController = (): Controller => {
   const controller = new SignUpController(makeDbAddAccount(), makeSignUpValidation(), makeDbAuthentication())
