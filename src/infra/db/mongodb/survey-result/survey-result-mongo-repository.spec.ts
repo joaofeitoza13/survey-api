@@ -77,11 +77,13 @@ describe('Survey Mongo Repository', () => {
         answer: survey.answers[0].answer,
         date: new Date()
       })
-      console.log(surveyResult)
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.surveyId).toEqual(survey.id)
+      expect(surveyResult.answers[0].answer).toBe(survey.answers[0].answer)
       expect(surveyResult.answers[0].count).toBe(1)
       expect(surveyResult.answers[0].percent).toBe(100)
+      expect(surveyResult.answers[1].count).toBe(0)
+      expect(surveyResult.answers[1].percent).toBe(0)
     })
 
     test('Should update a survey result if it already exists', async () => {
@@ -100,6 +102,8 @@ describe('Survey Mongo Repository', () => {
       expect(updatedSurveyResult.answers[0].answer).toBe(survey.answers[1].answer)
       expect(updatedSurveyResult.answers[0].count).toBe(1)
       expect(updatedSurveyResult.answers[0].percent).toBe(100)
+      expect(updatedSurveyResult.answers[1].count).toBe(0)
+      expect(updatedSurveyResult.answers[1].percent).toBe(0)
     })
   })
 })
