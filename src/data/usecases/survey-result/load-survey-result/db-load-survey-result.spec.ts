@@ -1,7 +1,7 @@
-import { mockSurveyResultModel, throwError } from '@/domain/test'
 import { DbLoadSurveyResult } from './db-load-survey-result'
 import { LoadSurveyResultRepository } from './db-load-survey-result-protocols'
 import { mockLoadSurveyResultRepository } from '@/data/test'
+import { mockSurveyResultModel, throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadSurveyResult
