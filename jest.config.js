@@ -7,7 +7,8 @@ const config = {
     '!<rootDir>/src/**/protocols/**',
     '!<rootDir>/src/**/*-protocols.ts',
     '!<rootDir>/src/**/*.d.ts',
-    '!**/test/**'
+    '!**/test/**',
+    '!**/env.ts'
 
   ],
   collectCoverage: false,
