@@ -1,4 +1,4 @@
 export interface Hasher {
-  hash: (value: string) => Promise<string>
+  hash: (plaintext: string) => Promise<string>
   // encrypt (value: string): Promise<string>
 }

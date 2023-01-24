@@ -1,20 +1,19 @@
 import { DbLoadSurveys } from './db-load-surveys'
-import { LoadSurveysRepository } from './db-load-surveys-protocols'
-import { mockSurveyModels, throwError } from '@/domain/test'
-import { mockLoadSurveysRepository } from '@/data/test'
+import { throwError } from '@/domain/test'
+import { LoadSurveyRepositorySpy } from '@/data/test'
 import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: DbLoadSurveys
-  loadSurveysRepositoryStub: LoadSurveysRepository
+  loadSurveyRepositorySpy: LoadSurveyRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveysRepositoryStub = mockLoadSurveysRepository()
-  const sut = new DbLoadSurveys(loadSurveysRepositoryStub)
+  const loadSurveyRepositorySpy = new LoadSurveyRepositorySpy()
+  const sut = new DbLoadSurveys(loadSurveyRepositorySpy)
   return {
     sut,
-    loadSurveysRepositoryStub
+    loadSurveyRepositorySpy
   }
 }
 
@@ -28,23 +27,20 @@ describe('DbLoadSurveys', () => {
   })
 
   test('Should call LoadSurveysRepository', async () => {
-    const { sut, loadSurveysRepositoryStub } = makeSut()
-    const loadAllSpy = jest.spyOn(loadSurveysRepositoryStub, 'loadAll')
+    const { sut, loadSurveyRepositorySpy } = makeSut()
     await sut.load()
-    expect(loadAllSpy).toHaveBeenCalled()
+    expect(loadSurveyRepositorySpy.callsCount).toBe(1)
   })
 
   test('Should return a list of surveys on LoadSurveysRepository success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveyRepositorySpy } = makeSut()
     const httpResponse = await sut.load()
-    expect(httpResponse).toEqual(mockSurveyModels())
+    expect(httpResponse).toEqual(loadSurveyRepositorySpy.surveyModels)
   })
 
   test('Should throw if LoadSurveysRepository throws', async () => {
-    const { sut, loadSurveysRepositoryStub } = makeSut()
-    jest
-      .spyOn(loadSurveysRepositoryStub, 'loadAll')
-      .mockImplementationOnce(throwError)
+    const { sut, loadSurveyRepositorySpy } = makeSut()
+    jest.spyOn(loadSurveyRepositorySpy, 'loadAll').mockImplementationOnce(throwError)
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

@@ -8,9 +8,9 @@ import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-a
 import { ObjectId } from 'mongodb'
 
 export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
-  async add (accountData: AddAccountParams): Promise<AccountModel> {
+  async add (data: AddAccountParams): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
-    const accountId = await accountCollection.insertOne(accountData)
+    const accountId = await accountCollection.insertOne(data)
       .then(result => result.insertedId)
     const fetchedAccount = await accountCollection.findOne({ _id: accountId })
     return fetchedAccount && MongoHelper.map(fetchedAccount)

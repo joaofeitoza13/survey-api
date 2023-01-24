@@ -2,38 +2,44 @@ import { Hasher } from '@/data/protocols/cryptography/hasher'
 import { Decrypter } from '@/data/protocols/cryptography/decrypter'
 import { Encrypter } from '@/data/protocols/cryptography/encrypter'
 import { HashComparer } from '@/data/protocols/cryptography/hash-comparer'
+import { faker } from '@faker-js/faker'
 
-export const mockHasher = (): Hasher => {
-  class HasherStub implements Hasher {
-    async hash (value: string): Promise<string> {
-      return Promise.resolve('hashed_password')
-    }
+export class HasherSpy implements Hasher {
+  digest = faker.datatype.uuid()
+  plaintext: string
+
+  async hash (plaintext: string): Promise<string> {
+    this.plaintext = plaintext
+    return this.digest
   }
-  return new HasherStub()
-}
-export const mockDecrypter = (): Decrypter => {
-  class DecrypterStub implements Decrypter {
-    async decrypt (value: string): Promise<string> {
-      return Promise.resolve('any_token')
-    }
-  }
-  return new DecrypterStub()
 }
 
-export const mockEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt (id: string): Promise<string> {
-      return Promise.resolve('any_token')
-    }
+export class HashComparerSpy implements HashComparer {
+  digest: string
+  plaintext: string
+  isValid = true
+
+  async compare (plaintext: string, digest: string): Promise<boolean> {
+    this.digest = digest
+    this.plaintext = plaintext
+    return Promise.resolve(this.isValid)
   }
-  return new EncrypterStub()
 }
 
-export const mockHashComparer = (): HashComparer => {
-  class HashComparerStub implements HashComparer {
-    async compare (value: string, hash: string): Promise<boolean> {
-      return Promise.resolve(true)
-    }
+export class DecrypterSpy implements Decrypter {
+  cyphertext: string
+  plaintext = faker.internet.password()
+  async decrypt (cyphertext: string): Promise<string> {
+    this.cyphertext = cyphertext
+    return this.plaintext
   }
-  return new HashComparerStub()
+}
+
+export class EncrypterSpy implements Encrypter {
+  cyphertext = faker.datatype.uuid()
+  plaintext: string
+  async encrypt (plaintext: string): Promise<string> {
+    this.plaintext = plaintext
+    return Promise.resolve(this.cyphertext)
+  }
 }
