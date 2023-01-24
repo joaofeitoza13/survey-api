@@ -1,9 +1,19 @@
 import { SurveyMongoRepository } from './survey-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
-import { mockAddSurveyParams } from '@/domain/test'
-import { Collection } from 'mongodb'
+import { mockAddAccountParams, mockAddSurveyParams } from '@/domain/test'
+import { AccountModel } from '@/domain/models/account'
+import { Collection, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
+let surveyResultCollection: Collection
+let accountCollection: Collection
+
+const mockAccount = async (): Promise<AccountModel> => {
+  const accountId = await accountCollection.insertOne(mockAddAccountParams())
+    .then(result => result.insertedId)
+  const account = await accountCollection.findOne({ _id: accountId })
+  return account && MongoHelper.map(account)
+}
 
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
@@ -21,6 +31,10 @@ describe('SurveyMongoRepository', () => {
   beforeEach(async () => {
     surveyCollection = await MongoHelper.getCollection('surveys')
     await surveyCollection.deleteMany({})
+    surveyResultCollection = await MongoHelper.getCollection('surveyResults')
+    await surveyResultCollection.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('add()', () => {
@@ -34,19 +48,31 @@ describe('SurveyMongoRepository', () => {
 
   describe('loadAll()', () => {
     test('Should load all surveys on success', async () => {
+      const account = await mockAccount()
       const addSurveyModels = [mockAddSurveyParams(), mockAddSurveyParams()]
-      await surveyCollection.insertMany(addSurveyModels)
+      const firstSurveyId = await surveyCollection.insertMany(addSurveyModels)
+        .then(result => result.insertedIds[0])
+      const survey = await surveyCollection.findOne({ _id: firstSurveyId })
+      await surveyResultCollection.insertOne({
+        surveyId: survey._id,
+        accountId: new ObjectId(account.id),
+        answer: survey.answers[0].answer,
+        date: Date
+      })
       const sut = makeSut()
-      const surveys = await sut.loadAll()
+      const surveys = await sut.loadAll(account.id)
       expect(surveys.length).toBe(2)
       expect(surveys[0].id).toBeTruthy()
       expect(surveys[0].question).toBe(addSurveyModels[0].question)
+      expect(surveys[0].didAnswer).toBe(true)
       expect(surveys[1].question).toBe(addSurveyModels[1].question)
+      expect(surveys[1].didAnswer).toBe(false)
     })
 
     test('Should load empty list', async () => {
+      const account = await mockAccount()
       const sut = makeSut()
-      const surveys = await sut.loadAll()
+      const surveys = await sut.loadAll(account.id)
       expect(surveys.length).toBe(0)
     })
   })
