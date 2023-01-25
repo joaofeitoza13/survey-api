@@ -1,5 +1,5 @@
 import { ValidationComposite } from '@/validation/validators'
-import { ValidationSpy } from '../../presentation/mocks'
+import { ValidationSpy } from '@/tests/presentation/mocks'
 import { MissingParamError } from '@/presentation/errors'
 import { faker } from '@faker-js/faker'
 

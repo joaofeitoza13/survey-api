@@ -2,7 +2,7 @@ import { SurveyModel } from '@/domain/models/survey'
 import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { AddSurvey, AddSurveyParams } from '@/domain/usecases/survey/add-survey'
-import { mockSurveyModel, mockSurveyModels } from '../../domain/mocks'
+import { mockSurveyModel, mockSurveyModels } from '@/tests/domain/mocks'
 
 export class AddSurveySpy implements AddSurvey {
   addSurveyParams: AddSurveyParams
