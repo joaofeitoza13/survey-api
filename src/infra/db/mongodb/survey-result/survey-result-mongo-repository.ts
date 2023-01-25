@@ -47,7 +47,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         count: { $sum: 1 },
         currentAccountAnswer: {
           $push: {
-            $cond: [{ $eq: ['$data.accountId', new ObjectId(accountId)] }, '$data.answer', null]
+            $cond: [{ $eq: ['$data.accountId', new ObjectId(accountId)] }, '$data.answer', '$invalid']
           }
         }
       })
