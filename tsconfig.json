@@ -2,17 +2,15 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "commonjs",
-    "target": "es2019",
+    "target": "es2020",
     "esModuleInterop": true,
-    "rootDir": "src",
     "sourceMap": true,
+    "rootDirs": ["src", "tests"],
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
     }
   },
-  "include": [
-    "src"
-  ],
+  "include":  ["src", "tests"],
   "exclude": []
 }

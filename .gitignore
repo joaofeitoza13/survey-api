@@ -14,7 +14,8 @@ debug.log
 data
 
 # do not ignore data layer because mongo data
-!src/data 
+!src/data
+!tests/data
 
 # requirements doc
 requirements
