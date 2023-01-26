@@ -1,7 +1,5 @@
 import { MongoHelper, QueryBuilder } from '@/infra/db/mongodb'
-import { SurveyModel } from '@/domain/models'
 import { AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository, CheckSurveyByIdRepository, LoadAnswersBySurveyRepository } from '@/data/protocols/db'
-
 import { ObjectId } from 'mongodb'
 
 export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository, CheckSurveyByIdRepository {
@@ -10,7 +8,7 @@ export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRe
     await surveyCollection.insertOne(surveyData)
   }
 
-  async loadAll (accountId: string): Promise<SurveyModel[]> {
+  async loadAll (accountId: string): Promise<LoadSurveysRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
     const query = new QueryBuilder()
       .lookup({
@@ -37,13 +35,13 @@ export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRe
         }
       })
       .build()
-    const surveys = await surveyCollection.aggregate<SurveyModel>(query).toArray()
+    const surveys = await surveyCollection.aggregate<LoadSurveysRepository.Result>(query).toArray()
     return surveys && MongoHelper.mapCollection(surveys)
   }
 
   async loadById (id: string): Promise<LoadSurveyByIdRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
-    const survey = await surveyCollection.findOne<SurveyModel>({ _id: new ObjectId(id) })
+    const survey = await surveyCollection.findOne<LoadSurveyByIdRepository.Result>({ _id: new ObjectId(id) })
     return survey && MongoHelper.map(survey)
   }
 
@@ -62,7 +60,7 @@ export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRe
 
   async checkById (id: string): Promise<CheckSurveyByIdRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
-    const survey = await surveyCollection.findOne<SurveyModel>({
+    const survey = await surveyCollection.findOne<CheckSurveyByIdRepository.Result>({
       _id: new ObjectId(id)
     }, {
       projection: {
