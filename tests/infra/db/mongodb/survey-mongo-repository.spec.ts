@@ -1,6 +1,7 @@
 import { SurveyMongoRepository, MongoHelper } from '@/infra/db'
 import { mockAddSurveyParams, mockAddAccountParams } from '@/tests/domain/mocks'
 import { Collection, ObjectId } from 'mongodb'
+import ObjectID from 'bson-objectid'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection
@@ -82,6 +83,48 @@ describe('SurveyMongoRepository', () => {
       const survey = await sut.loadById(surveyId.toString())
       expect(survey).toBeTruthy()
       expect(survey.id).toBeTruthy()
+    })
+
+    test('Should return null if survey does not exists', async () => {
+      const surveyId = await surveyCollection.insertOne(mockAddSurveyParams())
+        .then(result => result.insertedId)
+      const sut = makeSut()
+      const survey = await sut.loadById(surveyId.toString())
+      expect(survey).toBeTruthy()
+      expect(survey.id).toBeTruthy()
+    })
+  })
+
+  describe('loadAnswers()', () => {
+    test('Should load answers on success', async () => {
+      const surveyId = await surveyCollection.insertOne(mockAddSurveyParams())
+        .then(result => result.insertedId)
+      const survey = await surveyCollection.findOne({ _id: surveyId })
+      const sut = makeSut()
+      const answers = await sut.loadAnswers(String(surveyId))
+      expect(answers).toEqual([survey.answers[0].answer, survey.answers[1].answer])
+    })
+
+    test('Should return empty array if survey does not exists', async () => {
+      const sut = makeSut()
+      const answers = await sut.loadAnswers(String(ObjectID('54495ad94c934721ede76d90')))
+      expect(answers).toEqual([])
+    })
+  })
+
+  describe('checkById()', () => {
+    test('Should return true if survey exists', async () => {
+      const surveyId = await surveyCollection.insertOne(mockAddSurveyParams())
+        .then(result => result.insertedId)
+      const sut = makeSut()
+      const exists = await sut.checkById(surveyId.toString())
+      expect(exists).toBe(true)
+    })
+
+    test('Should return false if survey does not exists', async () => {
+      const sut = makeSut()
+      const survey = await sut.checkById(String(ObjectID('54495ad94c934721ede76d90')))
+      expect(survey).toBe(false)
     })
   })
 })
