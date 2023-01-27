@@ -1,16 +1,16 @@
-import { DbLoadAnswerBySurvey } from '@/data/usecases'
+import { DbLoadAnswersBySurvey } from '@/data/usecases'
 import { LoadAnswersBySurveyRepositorySpy } from '@/tests/data/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 
 type SutTypes = {
-  sut: DbLoadAnswerBySurvey
+  sut: DbLoadAnswersBySurvey
   loadAnswersBySurveyRepositorySpy: LoadAnswersBySurveyRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const loadAnswersBySurveyRepositorySpy = new LoadAnswersBySurveyRepositorySpy()
-  const sut = new DbLoadAnswerBySurvey(loadAnswersBySurveyRepositorySpy)
+  const sut = new DbLoadAnswersBySurvey(loadAnswersBySurveyRepositorySpy)
   return {
     sut,
     loadAnswersBySurveyRepositorySpy

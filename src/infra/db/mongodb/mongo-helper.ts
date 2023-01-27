@@ -26,7 +26,7 @@ export const MongoHelper = {
     return Object.assign({}, { id: _id, ...rest })
   },
 
-  mapCollection (collection: any[]): any[] {
-    return collection.map(item => this.map(item))
+  mapCollection: (collection: any[]): any[] => {
+    return collection.map(c => MongoHelper.map(c))
   }
 }

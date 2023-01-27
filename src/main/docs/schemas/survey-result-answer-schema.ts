@@ -8,7 +8,7 @@ export const surveyResultAnswerSchema = {
       type: 'string'
     },
     count: {
-      type: 'integer'
+      type: 'number'
     },
     percent: {
       type: 'number'

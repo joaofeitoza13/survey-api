@@ -1,3 +1,3 @@
 export interface HashComparer {
-  compare: (plaintext: string, digest: string) => Promise<boolean>
+  compare: (plaitext: string, digest: string) => Promise<boolean>
 }

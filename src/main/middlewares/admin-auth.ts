@@ -1,4 +1,4 @@
-import { middlewareAdapter } from '@/main/adapters'
+import { adaptMiddleware } from '@/main/adapters'
 import { makeAuthMiddleware } from '@/main/factories'
 
-export const adminAuth = middlewareAdapter(makeAuthMiddleware('admin'))
+export const adminAuth = adaptMiddleware(makeAuthMiddleware('admin'))

@@ -1,4 +1,3 @@
-
 export interface LoadAnswersBySurveyRepository {
   loadAnswers: (id: string) => Promise<LoadAnswersBySurveyRepository.Result>
 }

@@ -50,8 +50,7 @@ describe('SignUp Controller', () => {
     expect(addAccountSpy.addAccountParams).toEqual({
       name: request.name,
       email: request.email,
-      password: request.password,
-      passwordConfirmation: request.passwordConfirmation
+      password: request.password
     })
   })
 

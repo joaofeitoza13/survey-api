@@ -1,4 +1,4 @@
-import { makeLogControllerDecorator, makeDbLoadSurveyResult, makeDbCheckSurveyById } from '@/main/factories'
+import { makeLogControllerDecorator, makeDbCheckSurveyById, makeDbLoadSurveyResult } from '@/main/factories'
 import { Controller } from '@/presentation/protocols'
 import { LoadSurveyResultController } from '@/presentation/controllers'
 

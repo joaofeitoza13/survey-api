@@ -26,7 +26,7 @@ export class LoadSurveyResultController implements Controller {
 
 export namespace LoadSurveyResultController {
   export type Request = {
-    accountId: string
     surveyId: string
+    accountId: string
   }
 }

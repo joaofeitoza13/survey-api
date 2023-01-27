@@ -1,7 +1,8 @@
 import { Middleware } from '@/presentation/protocols'
-import { NextFunction, Request, Response } from 'express'
 
-export const middlewareAdapter = (middleware: Middleware) => {
+import { Request, Response, NextFunction } from 'express'
+
+export const adaptMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request = {
       accessToken: req.headers?.['x-access-token'],

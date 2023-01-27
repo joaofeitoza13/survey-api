@@ -1,5 +1,7 @@
-import { MongoHelper, QueryBuilder, ObjectId } from '@/infra/db'
+import { MongoHelper, QueryBuilder } from '@/infra/db'
 import { SaveSurveyResultRepository, LoadSurveyResultRepository } from '@/data/protocols/db'
+
+import { ObjectId } from 'mongodb'
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository, LoadSurveyResultRepository {
   async save (data: SaveSurveyResultRepository.Params): Promise<void> {

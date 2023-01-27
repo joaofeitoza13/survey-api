@@ -1,6 +1,6 @@
-import { InvalidParamError } from '@/presentation/errors'
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { forbidden, serverError, ok } from '@/presentation/helpers'
+import { InvalidParamError } from '@/presentation/errors'
 import { LoadAnswersBySurvey, SaveSurveyResult } from '@/domain/usecases'
 
 export class SaveSurveyResultController implements Controller {
@@ -31,8 +31,8 @@ export class SaveSurveyResultController implements Controller {
 
 export namespace SaveSurveyResultController {
   export type Request = {
-    accountId: string
     surveyId: string
     answer: string
+    accountId: string
   }
 }

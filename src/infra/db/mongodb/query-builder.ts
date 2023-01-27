@@ -16,6 +16,10 @@ export class QueryBuilder {
     return this.addStep('$group', data)
   }
 
+  sort (data: object): QueryBuilder {
+    return this.addStep('$sort', data)
+  }
+
   unwind (data: object): QueryBuilder {
     return this.addStep('$unwind', data)
   }
@@ -26,10 +30,6 @@ export class QueryBuilder {
 
   project (data: object): QueryBuilder {
     return this.addStep('$project', data)
-  }
-
-  sort (data: object): QueryBuilder {
-    return this.addStep('$sort', data)
   }
 
   build (): object[] {
