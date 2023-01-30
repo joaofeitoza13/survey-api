@@ -17,6 +17,7 @@ export class LoadSurveysController implements Controller {
 
 export namespace LoadSurveysController {
   export type Request = {
+    surveyId: string
     accountId: string
   }
 }
