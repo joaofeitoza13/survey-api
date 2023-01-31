@@ -56,7 +56,7 @@ describe('Login GraphQL', () => {
   describe('SignUp Mutation', () => {
     const query = `
       mutation {
-        signUp (name: "João Bisneto", email: "joaob@email.com", password: "123", passwordConfirmation: "123") {
+        signUp (name: "João Bisneto", email: "joao@email.com", password: "123", passwordConfirmation: "123") {
           accessToken
           name
         }
@@ -67,9 +67,23 @@ describe('Login GraphQL', () => {
         .post('/graphql')
         .send({ query })
       expect(response.status).toBe(200)
-      console.log(response)
       expect(response.body.data.signUp.accessToken).toBeTruthy()
       expect(response.body.data.signUp.name).toBe('João Bisneto')
+    })
+
+    test('Should return EmailInUseError on invalid data', async () => {
+      const password = await hash('123', 12)
+      await accountCollection.insertOne({
+        name: 'João',
+        email: 'joao@email.com',
+        password
+      })
+      const response: any = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(response.status).toBe(403)
+      expect(response.body.data).toBeFalsy()
+      expect(response.body.errors[0].message).toBe('The received email is already in use')
     })
   })
 })
