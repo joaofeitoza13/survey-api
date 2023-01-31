@@ -82,5 +82,25 @@ describe('Surveys Routes', () => {
       }])
       expect(response.body.data.surveys[0].date).toBe(mockedDate.toISOString())
     })
+
+    test('Should return surveys', async () => {
+      const mockedDate = new Date()
+      await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [{
+          answer: 'Answer 1',
+          image: 'http://answer-1.com'
+        }, {
+          answer: 'Answer 2',
+          image: 'http://answer-2.com'
+        }],
+        date: mockedDate
+      }).then(result => result.insertedId)
+      const response = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(response.status).toBe(403)
+      expect(response.body.errors[0].message).toBe('Access denied')
+    })
   })
 })
