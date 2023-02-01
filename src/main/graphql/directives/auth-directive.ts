@@ -16,7 +16,7 @@ export const AuthDirectiveTranformer = (schema: GraphQLSchema): GraphQLSchema =>
           const httpResponse = await makeAuthMiddleware().handle(request)
           if (httpResponse.statusCode === 200) {
             Object.assign(context?.req, httpResponse.body)
-            return resolve.call(source, args, context, info)
+            return resolve.call(this, source, args, context, info)
           } else {
             throw new ForbiddenError(httpResponse.body.message)
           }

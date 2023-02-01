@@ -31,7 +31,7 @@ schema = AuthDirectiveTranformer(schema)
 export default async (app: Express): Promise<void> => {
   const server = new ApolloServer({
     schema,
-    context: async ({ req }) => ({ req }),
+    context: ({ req }) => ({ req }),
     plugins: [{
       requestDidStart: async () => ({
         willSendResponse: async ({ response, errors }) => handleErrors(response, errors)
