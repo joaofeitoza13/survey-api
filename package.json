@@ -1,5 +1,5 @@
 {
-  "name": "clean-node-api",
+  "name": "survey-api",
   "version": "3.2.0",
   "description": "Node.js Rest API using TDD, Clean Architecture and Typesript",
   "scripts": {
